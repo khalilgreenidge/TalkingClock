@@ -23,7 +23,7 @@ whereby, you replace `hours` and `mins` with the time you actually want. E.g.  [
 ## Running Tests
 There are two types of [tests](src/test/java/com/khalilgreenidge/app/TalkingClock) in this repository: **unit** and **integration**. The unit
 test resides in the `units` folder and integration test resides in the `IT` folder. Before running the 
-integration test, make sure you **build** and **run** the application first! The particular test needs to build first, otherwise it will
+integration test, make sure you **build** and **run** the application first! This particular test needs to build first, otherwise it will
 appear to fail when in reality it works.
 
 
