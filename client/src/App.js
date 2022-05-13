@@ -13,11 +13,11 @@ function Title(props) {
 }
 
 function Form(props){
-  return <form style={{width: "100px"}}>{props.children}</form>
+  return <form style={{width: "300px"}}>{props.children}</form>
 }
 
 function TextArea(props){
-  return <textarea>{props.children}</textarea>
+  return <textarea id={props.id}>{props.children}</textarea>
 }
 
 const formComponents = {
@@ -26,20 +26,36 @@ const formComponents = {
 
 function App() {
 
-  const [setTime,time] = useState("0:00");
+  const [time, setTime] = useState("0:00");
 
-  const fetchTime = async (value) => {
+  const fetchTime = async () => {
+
+    let payload = new Date(time);
+    payload = `${payload.getHours()}:${payload.getMinutes()}`;
+    console.log(`new payload: ${payload}`);
+
       try{
-        const response = await fetch(`http://localhost:8080/v1/time/${value}`, {
-          method: 'GET'
+        const response = await fetch(`/v1/time/${payload}`, {
+          mode: 'no-cors',
+          cache: 'no-cache',
+          headers: {
+            'Content-type': 'text/plain'
+          }
         });
 
-        if (response.ok){
+        console.log(`Here is the response: ${response}`);
 
+        if (response.ok){
+          const json = await response.json();
+          document.getElementById('response').value = json.body;
         }
+        else
+          throw new Error('Response not ok!');
+
+        
       }
       catch(error){
-        console.log(`error: ${error.getMessage()}`);
+        console.log(`error: ${error.message}`);
       }
   }
 
@@ -59,9 +75,9 @@ function App() {
                 renderInput={(params) => <TextField {...params}  />}
               />
             </LocalizationProvider>
-            <Button onclick={fetchTime()}>Fetch Time</Button>
+            <Button onClick={fetchTime}>Fetch Time</Button>
         </Form>
-        <TextArea></TextArea>
+        <TextArea id="response"></TextArea>
         
       </header>
     </div>
